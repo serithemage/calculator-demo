@@ -6,29 +6,21 @@ import { useCalculator } from '@/hooks/useCalculator';
 export const Calculator: React.FC = () => {
     const { state, processInput } = useCalculator();
 
-    // Handler wrappers
     const onNumber = (num: string) => processInput('NUMBER', num);
     const onOperator = (op: string) => processInput('OPERATOR', op);
     const onFunction = (fn: string) => processInput('FUNCTION', fn);
     const onAction = (type: string) => processInput(type);
 
-    // Keyboard Support
     useEffect(() => {
         const handleKeyDown = (e: KeyboardEvent) => {
             const key = e.key;
-
-            // Numbers
             if (/[0-9]/.test(key)) onNumber(key);
             if (key === '.') onNumber('.');
-
-            // Operators
             if (['+', '-', '*', '/', '%', '^'].includes(key)) onOperator(key);
-
-            // Actions
             if (key === 'Enter' || key === '=') { e.preventDefault(); onAction('EQUALS'); }
             if (key === 'Backspace') onAction('DELETE');
             if (key === 'Escape') onAction('CLEAR');
-            if (key === '(' || key === ')') processInput('()'); // Simple mapping
+            if (key === '(' || key === ')') onAction('()');
         };
 
         window.addEventListener('keydown', handleKeyDown);
@@ -36,7 +28,7 @@ export const Calculator: React.FC = () => {
     }, [processInput]);
 
     return (
-        <div className="relative flex h-screen w-full flex-col max-w-md mx-auto shadow-2xl overflow-hidden bg-background-light dark:bg-background-dark">
+        <div className="relative flex h-screen w-full flex-col max-w-md mx-auto shadow-2xl overflow-hidden bg-background-light dark:bg-background-dark font-display">
             {/* Header */}
             <div className="flex items-center p-4 justify-between z-10">
                 <div className="w-12"></div>
@@ -62,27 +54,13 @@ export const Calculator: React.FC = () => {
                 <div className="flex justify-between items-center py-2 pt-4">
                     {/* DEG/RAD Switch */}
                     <div className="flex bg-slate-200 dark:bg-surface-dark p-1 rounded-lg">
-                        <label className="cursor-pointer relative z-10 px-3 py-1.5 rounded-md transition-all duration-200 has-[:checked]:bg-white dark:has-[:checked]:bg-[#2c3b4e] has-[:checked]:text-primary has-[:checked]:shadow-sm">
-                            <span className={`text-xs font-bold ${state.angleMode === 'DEG' ? 'text-slate-900 dark:text-white' : 'text-slate-500'}`}>DEG</span>
-                            <input
-                                type="radio"
-                                name="angle-mode"
-                                value="DEG"
-                                className="hidden"
-                                checked={state.angleMode === 'DEG'}
-                                onChange={() => processInput('TOGGLE_ANGLE')}
-                            />
+                        <label className={`cursor-pointer relative z-10 px-3 py-1.5 rounded-md transition-all duration-200 ${state.angleMode === 'DEG' ? 'bg-white dark:bg-[#2c3b4e] text-primary shadow-sm' : 'text-slate-500 dark:text-slate-400'}`}>
+                            <span className="text-xs font-bold">DEG</span>
+                            <input type="radio" name="angle-mode" value="DEG" className="hidden" checked={state.angleMode === 'DEG'} onChange={() => onAction('TOGGLE_ANGLE')} />
                         </label>
-                        <label className="cursor-pointer relative z-10 px-3 py-1.5 rounded-md transition-all duration-200 has-[:checked]:bg-white dark:has-[:checked]:bg-[#2c3b4e] has-[:checked]:text-primary has-[:checked]:shadow-sm">
-                            <span className={`text-xs font-bold ${state.angleMode === 'RAD' ? 'text-slate-900 dark:text-white' : 'text-slate-500'}`}>RAD</span>
-                            <input
-                                type="radio"
-                                name="angle-mode"
-                                value="RAD"
-                                className="hidden"
-                                checked={state.angleMode === 'RAD'}
-                                onChange={() => processInput('TOGGLE_ANGLE')}
-                            />
+                        <label className={`cursor-pointer relative z-10 px-3 py-1.5 rounded-md transition-all duration-200 ${state.angleMode === 'RAD' ? 'bg-white dark:bg-[#2c3b4e] text-primary shadow-sm' : 'text-slate-500 dark:text-slate-400'}`}>
+                            <span className="text-xs font-bold">RAD</span>
+                            <input type="radio" name="angle-mode" value="RAD" className="hidden" checked={state.angleMode === 'RAD'} onChange={() => onAction('TOGGLE_ANGLE')} />
                         </label>
                     </div>
 
@@ -91,7 +69,7 @@ export const Calculator: React.FC = () => {
                         onClick={() => onAction('DELETE')}
                         className="flex items-center justify-center text-primary h-10 px-4 rounded-lg hover:bg-primary/10 transition-colors"
                     >
-                        <span className="material-symbols-outlined text-2xl">backspace</span>
+                        <span className="material-symbols-outlined text-[28px]">backspace</span>
                     </button>
                 </div>
 
