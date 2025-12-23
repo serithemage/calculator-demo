@@ -1,0 +1,42 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+
+    /* Font Face Declarations */
+    @font-face {
+        font-family: 'Space Grotesk';
+        src: url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;700&display=swap');
+    }
+
+    @font-face {
+        font-family: 'Noto Sans';
+        src: url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;700&display=swap');
+    }
+
+    /* Body Styles */
+    body {
+        @apply font-display;
+        min-height: 100vh;
+    }
+
+    /* Custom Scrollbar Hide */
+    .no-scrollbar::-webkit-scrollbar {
+        display: none;
+    }
+
+    .no-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+}
+
+@layer components {
+
+    /* Button Press Effect */
+    button:active {
+        transform: scale(0.96);
+        transition: transform 0.1s;
+    }
+}
