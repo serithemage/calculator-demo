@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Scientific Calculator</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;700&amp;family=Noto+Sans:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#136dec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101822",
+                        "surface-dark": "#1b2531", // Slightly lighter than bg-dark for buttons
+                        "surface-dark-hover": "#25303e",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"],
+                        "body": ["Noto Sans", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem", 
+                        "lg": "0.5rem", 
+                        "xl": "0.75rem", 
+                        "2xl": "1rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom scrollbar hide for cleaner look */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        /* Button press effect */
+        button:active {
+            transform: scale(0.96);
+            transition: transform 0.1s;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-white font-display overflow-hidden">
+<div class="relative flex h-screen w-full flex-col max-w-md mx-auto shadow-2xl overflow-hidden bg-background-light dark:bg-background-dark">
+<!-- Header -->
+<div class="flex items-center p-4 justify-between z-10">
+<div class="w-12"></div> <!-- Spacer for centering -->
+<h2 class="text-lg font-bold leading-tight tracking-tight text-center">Standard</h2>
+<div class="flex w-12 items-center justify-end">
+<button class="flex items-center justify-center rounded-full h-10 w-10 text-slate-500 hover:bg-black/5 dark:text-slate-400 dark:hover:bg-white/10 transition-colors">
+<span class="material-symbols-outlined">history</span>
+</button>
+</div>
+</div>
+<!-- Display Area -->
+<div class="flex-1 flex flex-col justify-end items-end px-6 pb-6 w-full relative z-0">
+<!-- Previous Calculations / Input -->
+<div class="text-right mb-2 w-full overflow-hidden text-ellipsis whitespace-nowrap opacity-60 text-lg font-normal tracking-wide">
+                1,234.56 + sin(30)
+            </div>
+<!-- Current Result -->
+<div class="text-right w-full break-all text-5xl md:text-6xl font-bold tracking-tight text-slate-900 dark:text-white">
+                1,235.06
+            </div>
+</div>
+<!-- Controls Container -->
+<div class="flex flex-col gap-4 px-4 pb-6 bg-background-light dark:bg-background-dark rounded-t-3xl shadow-[0_-4px_20px_rgba(0,0,0,0.2)] z-10">
+<!-- Tools Row: Mode Switch & Edit Buttons -->
+<div class="flex justify-between items-center py-2 pt-4">
+<!-- DEG/RAD Switch -->
+<div class="flex bg-slate-200 dark:bg-surface-dark p-1 rounded-lg">
+<label class="cursor-pointer relative z-10 px-3 py-1.5 rounded-md transition-all duration-200 has-[:checked]:bg-white dark:has-[:checked]:bg-[#2c3b4e] has-[:checked]:text-primary has-[:checked]:shadow-sm">
+<span class="text-xs font-bold">DEG</span>
+<input checked="" class="hidden" name="angle-mode" type="radio" value="DEG"/>
+</label>
+<label class="cursor-pointer relative z-10 px-3 py-1.5 rounded-md transition-all duration-200 has-[:checked]:bg-white dark:has-[:checked]:bg-[#2c3b4e] has-[:checked]:text-primary has-[:checked]:shadow-sm text-slate-500 dark:text-slate-400">
+<span class="text-xs font-bold">RAD</span>
+<input class="hidden" name="angle-mode" type="radio" value="RAD"/>
+</label>
+</div>
+<!-- Backspace -->
+<button class="flex items-center justify-center text-primary h-10 px-4 rounded-lg hover:bg-primary/10 transition-colors">
+<span class="material-symbols-outlined" style="font-size: 28px;">backspace</span>
+</button>
+</div>
+<!-- Scientific Functions Grid (Scrollable horizontally on very small screens if needed, but designed to fit) -->
+<div class="grid grid-cols-5 gap-2.5">
+<!-- Row 1 Sci -->
+<button class="h-10 rounded-lg bg-slate-200 dark:bg-surface-dark hover:bg-slate-300 dark:hover:bg-surface-dark-hover text-sm font-medium transition-colors">sin</button>
+<button class="h-10 rounded-lg bg-slate-200 dark:bg-surface-dark hover:bg-slate-300 dark:hover:bg-surface-dark-hover text-sm font-medium transition-colors">cos</button>
+<button class="h-10 rounded-lg bg-slate-200 dark:bg-surface-dark hover:bg-slate-300 dark:hover:bg-surface-dark-hover text-sm font-medium transition-colors">tan</button>
+<button class="h-10 rounded-lg bg-slate-200 dark:bg-surface-dark hover:bg-slate-300 dark:hover:bg-surface-dark-hover text-sm font-medium transition-colors">π</button>
+<button class="h-10 rounded-lg bg-slate-200 dark:bg-surface-dark hover:bg-slate-300 dark:hover:bg-surface-dark-hover text-sm font-medium transition-colors">e</button>
+<!-- Row 2 Sci -->
+<button class="h-10 rounded-lg bg-slate-200 dark:bg-surface-dark hover:bg-slate-300 dark:hover:bg-surface-dark-hover text-sm font-medium transition-colors">ln</button>
+<button class="h-10 rounded-lg bg-slate-200 dark:bg-surface-dark hover:bg-slate-300 dark:hover:bg-surface-dark-hover text-sm font-medium transition-colors">log</button>
+<button class="h-10 rounded-lg bg-slate-200 dark:bg-surface-dark hover:bg-slate-300 dark:hover:bg-surface-dark-hover text-sm font-medium transition-colors">1/x</button>
+<button class="h-10 rounded-lg bg-slate-200 dark:bg-surface-dark hover:bg-slate-300 dark:hover:bg-surface-dark-hover text-sm font-medium transition-colors">√</button>
+<button class="h-10 rounded-lg bg-slate-200 dark:bg-surface-dark hover:bg-slate-300 dark:hover:bg-surface-dark-hover text-sm font-medium transition-colors">^</button>
+</div>
+<!-- Separator -->
+<div class="h-px bg-slate-200 dark:bg-white/5 w-full my-1"></div>
+<!-- Main Keypad Grid -->
+<div class="grid grid-cols-4 gap-3">
+<!-- Row 1 -->
+<button class="h-16 rounded-2xl bg-slate-200 dark:bg-surface-dark text-slate-900 dark:text-red-400 text-xl font-bold hover:brightness-110 transition-all">AC</button>
+<button class="h-16 rounded-2xl bg-slate-200 dark:bg-surface-dark text-primary text-xl font-bold hover:brightness-110 transition-all">( )</button>
+<button class="h-16 rounded-2xl bg-slate-200 dark:bg-surface-dark text-primary text-xl font-bold hover:brightness-110 transition-all">%</button>
+<button class="h-16 rounded-2xl bg-slate-200 dark:bg-surface-dark text-primary text-2xl font-bold hover:brightness-110 transition-all">÷</button>
+<!-- Row 2 -->
+<button class="h-16 rounded-2xl bg-white dark:bg-[#25303e] text-2xl font-semibold shadow-sm hover:brightness-110 transition-all">7</button>
+<button class="h-16 rounded-2xl bg-white dark:bg-[#25303e] text-2xl font-semibold shadow-sm hover:brightness-110 transition-all">8</button>
+<button class="h-16 rounded-2xl bg-white dark:bg-[#25303e] text-2xl font-semibold shadow-sm hover:brightness-110 transition-all">9</button>
+<button class="h-16 rounded-2xl bg-slate-200 dark:bg-surface-dark text-primary text-2xl font-bold hover:brightness-110 transition-all">×</button>
+<!-- Row 3 -->
+<button class="h-16 rounded-2xl bg-white dark:bg-[#25303e] text-2xl font-semibold shadow-sm hover:brightness-110 transition-all">4</button>
+<button class="h-16 rounded-2xl bg-white dark:bg-[#25303e] text-2xl font-semibold shadow-sm hover:brightness-110 transition-all">5</button>
+<button class="h-16 rounded-2xl bg-white dark:bg-[#25303e] text-2xl font-semibold shadow-sm hover:brightness-110 transition-all">6</button>
+<button class="h-16 rounded-2xl bg-slate-200 dark:bg-surface-dark text-primary text-2xl font-bold hover:brightness-110 transition-all">−</button>
+<!-- Row 4 -->
+<button class="h-16 rounded-2xl bg-white dark:bg-[#25303e] text-2xl font-semibold shadow-sm hover:brightness-110 transition-all">1</button>
+<button class="h-16 rounded-2xl bg-white dark:bg-[#25303e] text-2xl font-semibold shadow-sm hover:brightness-110 transition-all">2</button>
+<button class="h-16 rounded-2xl bg-white dark:bg-[#25303e] text-2xl font-semibold shadow-sm hover:brightness-110 transition-all">3</button>
+<button class="h-16 rounded-2xl bg-slate-200 dark:bg-surface-dark text-primary text-2xl font-bold hover:brightness-110 transition-all">+</button>
+<!-- Row 5 -->
+<button class="h-16 rounded-2xl bg-white dark:bg-[#25303e] text-2xl font-semibold shadow-sm hover:brightness-110 transition-all">0</button>
+<button class="h-16 rounded-2xl bg-white dark:bg-[#25303e] text-2xl font-semibold shadow-sm hover:brightness-110 transition-all">.</button>
+<button class="col-span-2 h-16 rounded-2xl bg-primary text-white text-3xl font-bold shadow-lg shadow-primary/30 hover:bg-blue-600 transition-all">=</button>
+</div>
+</div>
+</div>
+</body></html>
